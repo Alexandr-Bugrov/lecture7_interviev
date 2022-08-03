@@ -59,57 +59,20 @@ class LinkedList:
         for elem in your_string:
             self.push_end(elem)
 
-    def filter(self):
-        if self.size() % 2 != 0:
-            return 'Несбалансированно'
-            pass
-        obj = self.head
-        while obj.next:
-            if obj.data == '(' and obj.next.data in ']}':
-                return 'Несбалансированно'
-            elif obj.data == '[' and obj.next.data in ')}':
-                return 'Несбалансированно'
-            elif obj.data == '{' and obj.next.data in ')]':
-                return 'Несбалансированно'
-            obj = obj.next
-
-    def brackets_counter(self):
-        obj = self.head
-        square_brackets = 0
-        curly_brackets = 0
-        round_brackets = 0
-        i = False
-        while obj.next:
-            if i is True:
-                obj = obj.next
-            i = True
-            if obj.data == '(':
-                round_brackets += 1
-            elif obj.data == ')':
-                round_brackets -= 1
-            elif obj.data == '[':
-                square_brackets += 1
-            elif obj.data == ']':
-                square_brackets -= 1
-            elif obj.data == '{':
-                curly_brackets += 1
-            elif obj.data == '}':
-                curly_brackets -= 1
-        if square_brackets != 0 or curly_brackets != 0 or round_brackets != 0:
-            return 'Несбалансированно'
+    def filter(self, string:str):
+        for data in string:
+            if data in ['(', '[', '{']:
+                self.push_end(data)
+            elif data in [')', ']', '}'] and self.peek().data in ['(', '[', '{']:
+                self.pop()
+        if self.list_length == 0:
+            return 'Сбалансированно'
         else:
-            return 'Cбалансированно'
-
-    def checking(self):
-        filter_result = self.filter()
-        if filter_result is None:
-            print(self.brackets_counter())
-        else:
-            print(filter_result)
+            return 'Несбалансированно'
 
 
 new = LinkedList()
 string = '[([])((([[[]]])))]{()}'
-new.filler(string)
-new.checking()
+print(new.filter(string))
+
 
