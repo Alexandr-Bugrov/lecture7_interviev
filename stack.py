@@ -1,28 +1,28 @@
-class Stack:
-
+class Node:
     def __init__(self, data):
         self.data = data
         self.next = None
+
 
 class LinkedList:
     def __init__(self):
         self.head = None
         self.list_length = 0
 
-    def push_back(self, data):
+    def push(self, data):
         if self.head is None:
-            self.head = Stack(data)
+            self.head = Node(data)
         else:
-            first = Stack(data)
+            first = Node(data)
             first.next = self.head
             self.head = first
         self.list_length += 1
 
-    def push_front(self, data):
+    def push_end(self, data):
         if self.head is None:
-            self.head = Stack(data)
+            self.head = Node(data)
         else:
-            end = Stack(data)
+            end = Node(data)
             obj = self.head
             while obj.next:
                 obj = obj.next
@@ -41,7 +41,7 @@ class LinkedList:
             self.head = None
             self.list_length = 0
         else:
-            while obj.next.next is not None:
+            while obj.next.next:
                 obj = obj.next
             obj.next = None
             self.list_length -= 1
@@ -55,11 +55,61 @@ class LinkedList:
     def size(self):
         return self.list_length
 
+    def filler(self, your_string: str):
+        for elem in your_string:
+            self.push_end(elem)
+
+    def filter(self):
+        if self.size() % 2 != 0:
+            return 'Несбалансированно'
+            pass
+        obj = self.head
+        while obj.next:
+            if obj.data == '(' and obj.next.data in ']}':
+                return 'Несбалансированно'
+            elif obj.data == '[' and obj.next.data in ')}':
+                return 'Несбалансированно'
+            elif obj.data == '{' and obj.next.data in ')]':
+                return 'Несбалансированно'
+            obj = obj.next
+
+    def brackets_counter(self):
+        obj = self.head
+        square_brackets = 0
+        curly_brackets = 0
+        round_brackets = 0
+        i = False
+        while obj.next:
+            if i is True:
+                obj = obj.next
+            i = True
+            if obj.data == '(':
+                round_brackets += 1
+            elif obj.data == ')':
+                round_brackets -= 1
+            elif obj.data == '[':
+                square_brackets += 1
+            elif obj.data == ']':
+                square_brackets -= 1
+            elif obj.data == '{':
+                curly_brackets += 1
+            elif obj.data == '}':
+                curly_brackets -= 1
+        if square_brackets != 0 or curly_brackets != 0 or round_brackets != 0:
+            return 'Несбалансированно'
+        else:
+            return 'Cбалансированно'
+
+    def checking(self):
+        filter_result = self.filter()
+        if filter_result is None:
+            print(self.brackets_counter())
+        else:
+            print(filter_result)
+
 
 new = LinkedList()
-new.push_front(1)
-new.push_front(3)
-new.push_front(4)
-new.pop()
-print(new.size())
-print(new.peek())
+string = '[([])((([[[]]])))]{()}'
+new.filler(string)
+new.checking()
+
