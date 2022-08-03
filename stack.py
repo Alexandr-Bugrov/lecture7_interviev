@@ -63,16 +63,12 @@ class LinkedList:
         for data in string:
             if data in ['(', '[', '{']:
                 self.push_end(data)
-            elif data in [')', ']', '}'] and self.peek().data in ['(', '[', '{']:
+            elif data in [')', ']', '}'] and ((data == ')' and self.peek() == '(') or
+                                              (data == ']' and self.peek() == '[') or (data == '}' and self.peek() == '{')):
                 self.pop()
         if self.list_length == 0:
             return 'Сбалансированно'
         else:
             return 'Несбалансированно'
-
-
-new = LinkedList()
-string = '[([])((([[[]]])))]{()}'
-print(new.filter(string))
 
 
